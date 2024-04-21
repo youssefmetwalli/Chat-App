@@ -3,13 +3,15 @@ import React, { useState } from 'react';
 import { auth, db } from '../firebase';
 import { addDoc } from 'firebase/firestore';
 
-const SendMessage = () => {
+
+const SendMessage = ({scroll}) => {
   const [input, setInput] = useState('');
 
   const sendMessage = async (e) => {
     e.preventDefault();
     if (input === '') {
         alert('Please enter a valid message')
+        return //once there is a return it exits the code n doesnt proceed any further
     }
     const { uid, displayName } = auth.currentUser;
     await addDoc(collection(db, 'messages'), {
@@ -19,6 +21,7 @@ const SendMessage = () => {
       timestamp: serverTimestamp()
     });
     setInput(''); 
+    scroll.current.scrollIntoView({behavior: 'smooth'})
   };
 
   return (
@@ -28,7 +31,8 @@ const SendMessage = () => {
         onChange={(e) => setInput(e.target.value)} 
         type="text" 
         placeholder='Message' 
-        className='w-full text-xl p-3 bg-gray-900 text-white outline-none border-none'/>
+        className='w-full text-xl p-3 bg-gray-900 text-white outline-none border-none'
+        />
 
       <button className='w-[20%] bg-green-400' type='submit'> Send </button>
     </form>
