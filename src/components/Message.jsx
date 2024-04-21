@@ -7,15 +7,20 @@ const style = {
 }
 
 const Message = ({ message }) => {
-    const messageStyle = 
-    message.uid === auth.currentUser.uid ? style.sent : style.received;
+    if (!message) {
+      console.error('null or undefined.');
+      return null;
+    }
 
+    const messageStyle = message.uid === auth.currentUser?.uid ? style.sent : style.received;
+  
     return (
-        <div className={`${messageStyle} flex items-center shadow-xl m-4 py-4 px-3 rounded-tl-full rounded-tr-full`}>
-            <p className='text-gray-600 text-xs absolute mt-[-4.5rem] '>{message.name}</p>
-            <p>{message.text}</p>
-        </div>
-    )
-}
-
-export default Message;
+      <div className={`${messageStyle} flex items-center shadow-xl m-4 py-4 px-3 rounded-tl-full rounded-tr-full`}>
+        <p className='text-gray-600 text-xs absolute mt-[-4.5rem] '>{message.name}</p>
+        <p>{message.text}</p>
+      </div>
+    );
+  };
+  
+  export default Message;
+  
